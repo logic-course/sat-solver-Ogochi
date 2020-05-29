@@ -1,0 +1,1 @@
+Main-Class: ogochi.sat.SatSolver
