@@ -36,6 +36,7 @@ public class Formula {
     this(type, null, val1, val2);
   }
 
+  @Override
   public String toString() {
     return (negated ? "~" : "") + type.name() +
       (varName != null ? "'" + varName + "'" : "") + 
