@@ -9,10 +9,20 @@ public class Var {
     this.isNegated = isNegated;
   }
 
+  public Var getNegatedVar() {
+    return new Var(name, !isNegated);
+  }
+
+  @Override
+  public String toString() {
+    return (isNegated ? "~" : "") + "\"" + name + "\"";
+  }
+
   @Override
   public int hashCode() {
     final int prime = 31;
     int result = 1;
+    result = prime * result + (isNegated ? 1231 : 1237);
     result = prime * result + ((name == null) ? 0 : name.hashCode());
     return result;
   }
@@ -26,16 +36,13 @@ public class Var {
     if (getClass() != obj.getClass())
       return false;
     Var other = (Var) obj;
+    if (isNegated != other.isNegated)
+      return false;
     if (name == null) {
       if (other.name != null)
         return false;
     } else if (!name.equals(other.name))
       return false;
     return true;
-  }
-
-  @Override
-  public String toString() {
-    return (isNegated ? "~" : "") + "\"" + name + "\"";
   }
 }
