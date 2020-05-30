@@ -8,7 +8,7 @@ tester: Tester.hs
 	ghc -o tester Tester.hs
 
 # can comment this if your solution is not in Haskell
-sat-solver: src/ogochi/sat/SatSolver.java src/manifest.txt
+sat-solver: src/ogochi/sat/*.java src/manifest.txt
 	javac src/ogochi/sat/*.java
 	jar cfm sat-solver src/manifest.txt -C src ogochi/sat
 

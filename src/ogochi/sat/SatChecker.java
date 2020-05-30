@@ -13,10 +13,6 @@ public class SatChecker {
   }
 
   private boolean DPLL(CnfFormula formula) {
-    if (formula.subFormulas.isEmpty()) {
-      return true;
-    }
-
     var isOnlyLiterals = true;
     var unitFormulas = new HashSet<Var>();
 
@@ -36,15 +32,15 @@ public class SatChecker {
       }
     }
 
-    if (isOnlyLiterals) {
-      return true;
-    }
-
     if (!unitFormulas.isEmpty()) {
       var isStillPossible = removeAssigned(formula, unitFormulas);
       if (!isStillPossible) {
         return false;
       }
+    }
+
+    if (isOnlyLiterals) { 
+      return true;
     }
 
     return SplitFormula(formula);
@@ -55,7 +51,7 @@ public class SatChecker {
     if (!selected.isPresent()) {
       return DPLL(formula);
     }
-    
+
     var copy1 = formula.clone();
     var isStillPossible1 = removeAssigned(copy1, new HashSet<Var>(Arrays.asList(selected.get())));
 
@@ -67,6 +63,12 @@ public class SatChecker {
 
   private boolean removeAssigned(CnfFormula formula, Set<Var> assigned) {
     var containing = new HashSet<Set<Var>>();
+    
+    for (var assignedVar : assigned) {
+      if (assigned.contains(assignedVar.getNegatedVar())) {
+        return false;
+      }
+    }
 
     var iter = formula.subFormulas.iterator();
     while (iter.hasNext()) {
