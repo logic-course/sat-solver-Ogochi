@@ -3,13 +3,15 @@
 
 all: sat-solver tester
 
-# even non-Haskell solutions will need to compile the tester to run the tests
 tester: Tester.hs
 	ghc -o tester Tester.hs
 
-# can comment this if your solution is not in Haskell
-sat-solver: sat-solver.hs Parser.hs Utils.hs
-	ghc -o sat-solver sat-solver.hs
-
+# Requires Java 11 in order to compile solver
+sat-solver: src/ogochi/sat/*.java src/manifest.txt
+	# sudo apt install openjdk-11-jdk-headless
+	javac src/ogochi/sat/*.java
+	jar cfm sat-solver.jar src/manifest.txt -C src ogochi/sat
+	echo "java -cp sat-solver.jar ogochi.sat.SatSolver" > sat-solver
 clean:
-	rm sat-solver tester *.hi *.o
+	rm src/ogochi/sat/*.class
+	rm sat-solver.jar sat-solver tester *.hi *.o
