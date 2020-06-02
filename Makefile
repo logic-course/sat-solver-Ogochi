@@ -10,8 +10,8 @@ tester: Tester.hs
 sat-solver: src/ogochi/sat/*.java src/manifest.txt
 	# sudo apt install openjdk-11-jdk-headless
 	javac src/ogochi/sat/*.java
-	jar cfm sat-solver src/manifest.txt -C src ogochi/sat
-
+	jar cfm sat-solver.jar src/manifest.txt -C src ogochi/sat
+	echo "java -cp sat-solver.jar ogochi.sat.SatSolver" > sat-solver
 clean:
 	rm src/ogochi/sat/*.class
-	rm sat-solver tester *.hi *.o
+	rm sat-solver.jar sat-solver tester *.hi *.o
